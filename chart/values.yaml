@@ -1,0 +1,28 @@
+# Defaults for every app. Override any of these in apps/<name>/app.yaml.
+
+image:
+  # Defaults to ghcr.io/nacho692/<app name>, which is what CI pushes.
+  repository: ""
+  # Set by CI after each build; don't edit by hand.
+  tag: latest
+
+# Port the container listens on.
+port: 8080
+
+replicas: 1
+
+# Plain environment variables: { NAME: value }
+env: {}
+
+# Exposed at http://<host> on the internal network.
+ingress:
+  enabled: true
+  # Defaults to <app name>.k3s.internal
+  host: ""
+
+resources:
+  requests:
+    cpu: 10m
+    memory: 32Mi
+  limits:
+    memory: 256Mi

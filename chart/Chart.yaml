@@ -1,0 +1,4 @@
+apiVersion: v2
+name: app
+description: Shared chart every apps/<name>/ folder is deployed with (values = its app.yaml)
+version: 0.1.0
