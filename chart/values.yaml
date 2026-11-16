@@ -1,9 +1,9 @@
 # Defaults for every app. Override any of these in apps/<name>/app.yaml.
 
 image:
-  # Defaults to ghcr.io/nacho692/<app name>, which is what CI pushes.
+  # Defaults to registry.k3s.internal/<app name>, where deploy.sh pushes.
   repository: ""
-  # Set by CI after each build; don't edit by hand.
+  # Set by deploy.sh; don't edit by hand.
   tag: latest
 
 # Port the container listens on.

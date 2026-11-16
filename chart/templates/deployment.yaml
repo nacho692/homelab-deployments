@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: {{ .Release.Name }}
-          image: "{{ .Values.image.repository | default (printf "ghcr.io/nacho692/%s" .Release.Name) }}:{{ .Values.image.tag }}"
+          image: "{{ .Values.image.repository | default (printf "registry.k3s.internal/%s" .Release.Name) }}:{{ .Values.image.tag }}"
           ports:
             - name: http
               containerPort: {{ .Values.port }}
