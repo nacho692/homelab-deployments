@@ -2,18 +2,27 @@
 
 Every folder in `apps/` is an app running on the homelab k3s cluster.
 
-## One-time setup
+## Requirements
 
-You need Docker and push access to this repo. Then:
+Push access to this repo. To build images here you also need Docker and
+[crane](https://github.com/google/go-containerregistry) (or Nix, which
+`deploy.sh` uses to run crane). No Docker configuration needed.
 
-```bash
-sudo ./setup-docker.sh
+## Use an existing image
+
+Any public image works without building anything here:
+
+```yaml
+# apps/<name>/app.yaml
+port: 8080
+image:
+  repository: ghcr.io/someone/myapp
+  tag: v1.2
 ```
 
-This lets Docker push to the cluster registry (`registry.k3s.internal`,
-plain HTTP on the internal network).
+Commit and push; that's the whole deploy.
 
-## Add or update an app
+## Build and deploy your own image
 
 1. Create `apps/<name>/` with a `Dockerfile` and an `app.yaml`:
 
@@ -27,9 +36,12 @@ plain HTTP on the internal network).
    ./deploy.sh <name>
    ```
 
-It builds the image, pushes it to the registry, records the new tag in
-`app.yaml`, and pushes to git. Within ~3 minutes it's live at
-`http://<name>.k3s.internal`.
+It builds the image, pushes it to the cluster registry
+(`registry.k3s.internal`), records the new tag in `app.yaml`, and pushes to
+git. Within ~3 minutes it's live at `http://<name>.k3s.internal`.
+
+If `registry.k3s.internal` doesn't resolve on your machine, push by node IP:
+`PUSH_REGISTRY=<node-ip>:30500 ./deploy.sh <name>`.
 
 Changes to `app.yaml` alone (env, replicas, ...) only need a normal
 commit and push, no `deploy.sh`.
